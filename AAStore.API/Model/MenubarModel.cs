@@ -1,6 +1,6 @@
-namespace AAStore.API.Modelse
+namespace AAStore.API.Models
 {
-    public class MenubarModelse
+    public class MenubarModel
     {
         string MenuName {get;set;}
     }
