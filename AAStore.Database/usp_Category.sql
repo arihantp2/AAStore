@@ -18,9 +18,9 @@ as
 	where CategoryId = @CategoryId
   end
 
--- Create Categories
+-- Insert Categories
 
-create procedure usp_CreateCategory
+create procedure usp_InsertCategory
 	@CategoryName nvarchar(100)
 as
   begin
