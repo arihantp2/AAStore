@@ -10,6 +10,8 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
+using AAStore.API.Repository.Menubar;
+using AAStore.API.BusinessLogic.Menubar;
 
 namespace AAStore
 {
@@ -26,6 +28,10 @@ namespace AAStore
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddControllers();
+
+            services.AddScoped<IMenubarRepository, MenubarRepository>();
+            services.AddTransient<IMenubarManager, MenubarManager>();
+
             services.AddSwaggerGen();
         }
 
