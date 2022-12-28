@@ -4,7 +4,7 @@ using System.Linq;
 using Microsoft.AspNetCore.Mvc;
 using AAStore.API.Model;
 using AAStore.API.BusinessLogic.Menubar;
-using AAStore.API.BusinessLogic.Category;
+using AAStore.API.BusinessLogic.Company;
 
 namespace AAStore.API.Controllers
 {
@@ -13,12 +13,12 @@ namespace AAStore.API.Controllers
     public class DashboardController : ControllerBase
     {   
         private readonly IMenubarManager _menubarManager;
-        private readonly ICategoryManager _categoryManager ;
+        private readonly ICompanyManager _companyManager;
 
-        public DashboardController(IMenubarManager menubarManager,ICategoryManager categoryManager)
+        public DashboardController(IMenubarManager menubarManager, ICompanyManager companyManager)
         {
             _menubarManager = menubarManager;
-            _categoryManager = categoryManager;
+            _companyManager = companyManager;
         }
 
         [HttpGet]
@@ -38,43 +38,34 @@ namespace AAStore.API.Controllers
         }
 
         [HttpGet]
-        [Route("Categories")]
-        public IEnumerable<CategoryModel> GetCategory()
-        {          
-            List<CategoryModel> list = _categoryManager.GetCategory();
-            return list;           
-        }
-
-        [HttpGet]
-        [Route("Category/{id}")]
-
-        public IActionResult GetCategoryById(int id)
+        [Route("CompanyByCategory")]
+        public IEnumerable<CompanyModel> GetCompany(int id)
         {
-            var list = _categoryManager.GetCategoryById(id);
-            return Ok(list);
+            List<CompanyModel> list = _companyManager.GetCompany(id);
+            return list;
         }
 
         [HttpPost]
-        [Route("AddCategory")]
-        public IActionResult AddCategory([FromBody]CategoryModel category)
+        [Route("AddCompany")]
+        public IActionResult AddCompany([FromBody]CompanyModel company )
         {
-            var message = _categoryManager.AddCategory(category);
+            var message = _companyManager.AddCompany(company);
             return Ok(message);
         }
 
         [HttpPut]
-        [Route("UpdateCategory/{id}")]
-        public IActionResult UpdateCategory(int id,[FromBody]CategoryModel category)
+        [Route("UpdateCompany/{id}")]
+        public IActionResult UpdateCompany(int id,[FromBody] CompanyModel company)
         {
-            var message = _categoryManager.UpdateCategory(id,category);
+            var message = _companyManager.UpdateCompany(id,company);
             return Ok(message);
         }
 
         [HttpDelete]
-        [Route("DeleteCategory/{id}")]
-        public IActionResult DeleteCategory(int id)
+        [Route("DeleteCompany/{id}")]
+        public IActionResult DeleteCompany(int id)
         {
-            var message = _categoryManager.DeleteCategory(id);
+            var message = _companyManager.DeleteCompany(id);
             return Ok(message);
         }
     }
