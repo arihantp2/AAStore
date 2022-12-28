@@ -61,5 +61,21 @@ namespace AAStore.API.Controllers
             var message = _categoryManager.AddCategory(category);
             return Ok(message);
         }
+
+        [HttpPut]
+        [Route("UpdateCategory/{id}")]
+        public IActionResult UpdateCategory(int id,[FromBody]CategoryModel category)
+        {
+            var message = _categoryManager.UpdateCategory(id,category);
+            return Ok(message);
+        }
+
+        [HttpDelete]
+        [Route("DeleteCategory/{id}")]
+        public IActionResult DeleteCategory(int id)
+        {
+            var message = _categoryManager.DeleteCategory(id);
+            return Ok(message);
+        }
     }
 }

@@ -10,5 +10,7 @@ namespace AAStore.API.Repository.Category
         DataSet GetCategory();
         DataSet GetCategoryById(int id);
         DataSet AddCategory(CategoryModel category);
+        DataSet UpdateCategory(int id,CategoryModel category);
+        DataSet DeleteCategory(int id);
     }
 }

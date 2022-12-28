@@ -45,11 +45,11 @@ namespace AAStore.API.BusinessLogic.Category
             return cm;
         }
 
-        public List<CategoryModel> GetCategoryById(int id)
+        public CategoryModel GetCategoryById(int id)
         {
-            List<CategoryModel> cm = new List<CategoryModel>();
             DataSet DS = new DataSet();
-
+            CategoryModel cm = new CategoryModel();
+            
             DS = _categoryRepository.GetCategoryById(id);
             if (DS!=null)
             {
@@ -58,10 +58,8 @@ namespace AAStore.API.BusinessLogic.Category
                 {
                     foreach (DataRow dr in dt.Rows)
                     {
-                        CategoryModel data = new CategoryModel();
-                        // data.CategoryId =  Convert.ToInt32(dr["CategoryId"].ToString());
-                        data.CategoryName=dr["CategoryName"].ToString();
-                        cm.Add(data);
+                        //data.CategoryId =  Convert.ToInt32(dr["CategoryId"].ToString());
+                        cm.CategoryName=dr["CategoryName"].ToString();
                     }
                 }
             }
@@ -71,6 +69,26 @@ namespace AAStore.API.BusinessLogic.Category
         {
             var DS = _categoryRepository.AddCategory(category);
             if (DS==null)
+            {
+                return false;
+            }
+            return true;
+        }
+
+        public bool UpdateCategory(int id,CategoryModel category)
+        {
+            var DS = _categoryRepository.UpdateCategory(id,category);
+            if(DS == null)
+            {
+                return false;
+            }
+            return true;
+        }
+
+        public bool DeleteCategory(int id)
+        {
+            var DS = _categoryRepository.DeleteCategory(id);
+            if(DS==null)
             {
                 return false;
             }

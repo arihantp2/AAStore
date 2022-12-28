@@ -5,8 +5,10 @@ namespace AAStore.API.BusinessLogic.Category
     public interface ICategoryManager 
     {
         List<CategoryModel> GetCategory();
-        List<CategoryModel> GetCategoryById(int id); 
+        CategoryModel GetCategoryById(int id); 
         public bool AddCategory(CategoryModel category);
+        bool UpdateCategory(int id,CategoryModel category);
+        bool DeleteCategory(int id);
       
     }
 }

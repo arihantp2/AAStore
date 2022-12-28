@@ -45,8 +45,12 @@ namespace AAStore.API.Repository.Category
             {
                 SqlCommand cmd = new SqlCommand(Procedures.GET_CATEGORY_BY_ID,con);
                 cmd.Parameters.AddWithValue(CreateParameters.CATEGORYID,id);
-                cmd.CommandType = CommandType.StoredProcedure;
-                
+                cmd.CommandType = CommandType.StoredProcedure;  
+
+                using (var sqlDataAdapter = new SqlDataAdapter(cmd))
+                {
+                    sqlDataAdapter.Fill (ds);
+                }     
             }
             return ds;
         }
@@ -69,10 +73,45 @@ namespace AAStore.API.Repository.Category
             return ds;
         }
 
+        public DataSet UpdateCategory(int id,CategoryModel category)
+        {
+            string connectionString  = _configuration.GetConnectionString("Product");
+            var ds = new DataSet();
+            using(SqlConnection con  = new SqlConnection(connectionString))
+            {
+                SqlCommand cmd = new SqlCommand(Procedures.UPDATE_CATEGORY,con);
+                cmd.Parameters.AddWithValue(CreateParameters.CATEGORYID,id);
+                cmd.Parameters.AddWithValue(CreateParameters.CATEGORYNAME,category.CategoryName);
+                cmd.CommandType = CommandType.StoredProcedure;
+                cmd.CommandTimeout = 0;
+                
+                var sqlDataAdapter = new SqlDataAdapter(cmd);
+                sqlDataAdapter.Fill(ds);                
+            }
+            return ds;
+        }
+
+        public DataSet DeleteCategory(int id)
+        {
+            string connectionString = _configuration.GetConnectionString("Product");
+            var ds = new DataSet();
+
+            using (SqlConnection con = new SqlConnection(connectionString))
+             {
+                SqlCommand cmd = new SqlCommand(Procedures.DELETE_CATEGORY,con);
+                cmd.Parameters.AddWithValue(CreateParameters.CATEGORYID,id);
+                cmd.CommandType = CommandType.StoredProcedure;
+                cmd.CommandTimeout = 0;
+                
+                var sqlDataAdapter = new SqlDataAdapter(cmd);
+                sqlDataAdapter.Fill(ds);                
+            }
+            return ds;
+        }
+
         public static class CreateParameters
         {
             public const string CATEGORYNAME = "@CategoryName";
-
             public const string CATEGORYID = "@CategoryId";
         }
          public static class Procedures
@@ -80,8 +119,9 @@ namespace AAStore.API.Repository.Category
             public const string GET_CATEGORY_DETAILS= "usp_getCategoryDetails";
             public const string GET_CATEGORY_BY_ID = "usp_getCategoryById";
             public const string ADD_CATEGORY = "usp_InsertCategory";
+            public const string UPDATE_CATEGORY = "usp_UpdateCategory";
 
-           
+            public const string DELETE_CATEGORY = "usp_DeleteCategoryById";
         }
     }
 }
