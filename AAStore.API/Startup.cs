@@ -14,6 +14,8 @@ using AAStore.API.Repository.Menubar;
 using AAStore.API.BusinessLogic.Menubar;
 using AAStore.API.BusinessLogic.Category;
 using AAStore.API.Repository.Category;
+using AAStore.API.Repository.Company;
+using AAStore.API.BusinessLogic.Company;
 
 namespace AAStore
 {
@@ -36,6 +38,9 @@ namespace AAStore
 
             services.AddScoped<ICategoryRepository,CategoryRepository>();
             services.AddTransient<ICategoryManager,CategoryManager>();
+
+            services.AddScoped<ICompanyRepository, CompanyRepository>();
+            services.AddTransient<ICompanyManager, CompanyManager>();
 
             services.AddSwaggerGen();
         }

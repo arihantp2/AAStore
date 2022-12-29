@@ -5,6 +5,7 @@ using Microsoft.AspNetCore.Mvc;
 using AAStore.API.Model;
 using AAStore.API.BusinessLogic.Menubar;
 using AAStore.API.BusinessLogic.Category;
+using AAStore.API.BusinessLogic.Company;
 
 namespace AAStore.API.Controllers
 {
@@ -14,11 +15,17 @@ namespace AAStore.API.Controllers
     {   
         private readonly IMenubarManager _menubarManager;
         private readonly ICategoryManager _categoryManager ;
+        private readonly ICompanyManager _companyManager;
 
-        public DashboardController(IMenubarManager menubarManager,ICategoryManager categoryManager)
+
+        public DashboardController(IMenubarManager menubarManager,
+        ICategoryManager categoryManager,
+        ICompanyManager companyManager
+        )
         {
             _menubarManager = menubarManager;
             _categoryManager = categoryManager;
+             _companyManager = companyManager;
         }
 
         [HttpGet]
@@ -75,6 +82,38 @@ namespace AAStore.API.Controllers
         public IActionResult DeleteCategory(int id)
         {
             var message = _categoryManager.DeleteCategory(id);
+            return Ok(message);
+        }
+
+        [HttpGet]
+        [Route("CompanyByCategory")]
+        public IEnumerable<CompanyModel> GetCompany(int id)
+        {
+            List<CompanyModel> list = _companyManager.GetCompany(id);
+            return list;
+        }
+
+        [HttpPost]
+        [Route("AddCompany")]
+        public IActionResult AddCompany([FromBody]CompanyModel company )
+        {
+            var message = _companyManager.AddCompany(company);
+            return Ok(message);
+        }
+
+        [HttpPut]
+        [Route("UpdateCompany/{id}")]
+        public IActionResult UpdateCompany(int id,[FromBody] CompanyModel company)
+        {
+            var message = _companyManager.UpdateCompany(id,company);
+            return Ok(message);
+        }
+
+        [HttpDelete]
+        [Route("DeleteCompany/{id}")]
+        public IActionResult DeleteCompany(int id)
+        {
+            var message = _companyManager.DeleteCompany(id);
             return Ok(message);
         }
     }
