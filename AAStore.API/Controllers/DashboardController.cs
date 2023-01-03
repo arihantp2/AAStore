@@ -6,6 +6,7 @@ using AAStore.API.Model;
 using AAStore.API.BusinessLogic.Menubar;
 using AAStore.API.BusinessLogic.Category;
 using AAStore.API.BusinessLogic.Company;
+using AAStore.API.BusinessLogic.User;
 
 namespace AAStore.API.Controllers
 {
@@ -16,16 +17,18 @@ namespace AAStore.API.Controllers
         private readonly IMenubarManager _menubarManager;
         private readonly ICategoryManager _categoryManager ;
         private readonly ICompanyManager _companyManager;
-
+        private readonly IUserManager _userManager;
 
         public DashboardController(IMenubarManager menubarManager,
         ICategoryManager categoryManager,
-        ICompanyManager companyManager
+        ICompanyManager companyManager,
+        IUserManager userManager
         )
         {
-            _menubarManager = menubarManager;
-            _categoryManager = categoryManager;
-             _companyManager = companyManager;
+                _menubarManager = menubarManager;
+                _categoryManager = categoryManager;
+                _companyManager = companyManager;
+                _userManager = userManager;
         }
 
         [HttpGet]
@@ -45,7 +48,7 @@ namespace AAStore.API.Controllers
         }
 
         [HttpGet]
-        [Route("Categories")]
+        [Route("GetCategory")]
         public IEnumerable<CategoryModel> GetCategory()
         {          
             List<CategoryModel> list = _categoryManager.GetCategory();
@@ -116,5 +119,50 @@ namespace AAStore.API.Controllers
             var message = _companyManager.DeleteCompany(id);
             return Ok(message);
         }
-    }
+
+        [HttpGet]
+        [Route("GetAllUsers")]
+
+        public IEnumerable<UserModel> GetUsers()
+        {
+            List<UserModel> list =_userManager.GetUsers();
+            return list;
+        }
+
+        [HttpGet]
+        [Route("GetUserById/{id}")]
+
+        public IActionResult GetUserById (int id)
+        {
+            var message = _userManager.GetCategoryById(id);
+            return Ok(message);
+        }
+
+        [HttpPost]
+        [Route("AddUser")]
+
+        public IActionResult AddUser([FromBody]UserModel user)
+        {
+            var message = _userManager.AddUser(user);
+            return Ok(message);
+        }
+
+        [HttpPut]
+        [Route("UpdateUser/{id}")]
+
+        public IActionResult UpdateUser(int id,[FromBody] UserModel user)
+        {
+            var message = _userManager.UpdateUser(id,user);
+            return Ok(message);
+        }
+
+        [HttpDelete]
+        [Route("DeleteUser/{id}")]
+
+        public IActionResult DeleteUser(int id)
+        {
+            var message = _userManager.DeleteUser(id);
+            return Ok(message);
+        }
+    }    
 }
