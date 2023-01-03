@@ -7,6 +7,7 @@ using AAStore.API.BusinessLogic.Menubar;
 using AAStore.API.BusinessLogic.Category;
 using AAStore.API.BusinessLogic.Company;
 using AAStore.API.BusinessLogic.User;
+using AAStore.API.BusinessLogic.Product;
 
 namespace AAStore.API.Controllers
 {
@@ -18,17 +19,20 @@ namespace AAStore.API.Controllers
         private readonly ICategoryManager _categoryManager ;
         private readonly ICompanyManager _companyManager;
         private readonly IUserManager _userManager;
+        private readonly IProductManager _productManager;
 
         public DashboardController(IMenubarManager menubarManager,
         ICategoryManager categoryManager,
         ICompanyManager companyManager,
-        IUserManager userManager
+        IUserManager userManager,
+        IProductManager productManager
         )
         {
                 _menubarManager = menubarManager;
                 _categoryManager = categoryManager;
                 _companyManager = companyManager;
                 _userManager = userManager;
+                _productManager = productManager;
         }
 
         [HttpGet]
@@ -163,6 +167,14 @@ namespace AAStore.API.Controllers
         {
             var message = _userManager.DeleteUser(id);
             return Ok(message);
+        }
+
+        [HttpGet]
+        [Route("Products")]
+        public IEnumerable<ProductModel> GetProducts()
+        {
+            List<ProductModel> list = _productManager.GetProducts();
+            return list;
         }
     }    
 }
