@@ -16,6 +16,11 @@ using AAStore.API.BusinessLogic.Category;
 using AAStore.API.Repository.Category;
 using AAStore.API.Repository.Company;
 using AAStore.API.BusinessLogic.Company;
+using AAStore.API.Repository.Product;
+using AAStore.API.BusinessLogic.Product;
+using AAStore.API.Repository.User;
+using AAStore.API.BusinessLogic.User;
+
 
 namespace AAStore
 {
@@ -41,6 +46,12 @@ namespace AAStore
 
             services.AddScoped<ICompanyRepository, CompanyRepository>();
             services.AddTransient<ICompanyManager, CompanyManager>();
+
+            services.AddScoped<IProductRepository, ProductRepository>();
+            services.AddTransient<IProductManager, ProductManager>();
+
+            services.AddScoped<IUserRepository, UserRepository>();
+            services.AddTransient<IUserManager, UserManager>();
 
             services.AddSwaggerGen();
         }
