@@ -176,5 +176,54 @@ namespace AAStore.API.Controllers
             List<ProductModel> list = _productManager.GetProducts();
             return list;
         }
+
+        [HttpGet]
+        [Route("ProductsByProductId/{id}")]
+        public IActionResult GetProductsById(int id)
+        {
+            var list = _productManager.GetProductByProductId(id);
+            return Ok(list);
+        }
+
+        [HttpGet]
+        [Route("ProductsByCategory/{id}")]
+        public IEnumerable<ProductModel> GetProductsByCategory(int id)
+        {
+            List<ProductModel> list = _productManager.GetProductsByCategory(id);
+            return list;
+        }
+
+        [HttpGet]
+        [Route("ProductsByCompany/{id}")]
+        public IEnumerable<ProductModel> GetProductsByCompany(int id)
+        {
+            List<ProductModel> list = _productManager.GetProductsByCompany(id);
+            return list;
+        }
+
+        [HttpPost]
+        [Route("AddProducts")]
+        public IActionResult AddProduct([FromBody] ProductModel product)
+        {
+            var message = _productManager.AddProduct(product);
+            return Ok(message);
+        }
+
+        [HttpPut]
+        [Route("UpdateProduct/{id}")]
+        public IActionResult UpdateProduct(int id,[FromBody] ProductModel product)
+        {
+            var message = _productManager.UpdateProduct(id,product);
+            return Ok(message);
+        }
+        [HttpDelete]
+        [Route("DeleteProduct/{id}")]
+
+        public IActionResult DeleteProduct(int id)
+        {
+            var message = _productManager.DeleteProduct(id);
+            return Ok(message);
+        }
+
     }    
 }
